@@ -1,0 +1,13 @@
+name: optimizedbert-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas=1.4.2
+  - matplotlib=3.5.1
+  - tqdm=4.64.0
+  - pytorch=1.11.0
+  - transformers=4.18.0
+  - numpy=1.26.4
+  - scipy=1.7.1
