@@ -1,8 +1,8 @@
 import math
 import bisect
 import numpy as np
-from .gelu import myGelu
-from .arc import arcLength
+from gelu import myGelu
+from arc import arcLength
 
 # PieceWiseApproximation
 # This class takes GELU, a non-linear activation function, and approximates it with a series of linear segments. 

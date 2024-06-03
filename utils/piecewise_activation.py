@@ -1,5 +1,5 @@
 import torch.nn as nn
-from .piecewise_approximation import PieceWiseApproximation
+from piecewise_approximation import PieceWiseApproximation
 
 # PieceWiseActivation
 # This class implements an activation function using piecewise linear approximation.
