@@ -6,8 +6,6 @@ import torch
 current_dir = os.path.dirname(os.path.realpath(__file__))
 utils_dir = os.path.join(current_dir, '..')
 sys.path.append(utils_dir)
-from utils.weight_bit_precision_editor import WeightBitPrecisionEditor
-from utils.piecewise_activation import PieceWiseActivation
 
 def apply_half_precision(model):
     with torch.no_grad():
@@ -15,6 +13,7 @@ def apply_half_precision(model):
     return model
 
 def apply_piecewise_approximation(model):
+    from utils.piecewise_activation import PieceWiseActivation
     with torch.no_grad():
         for layer in model.roberta.encoder.layer:
             layer.intermediate.intermediate_act_fn = PieceWiseActivation()
