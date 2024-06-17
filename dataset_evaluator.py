@@ -44,7 +44,7 @@ class DatasetEvaluator:
     def plot_metrics(self):
         metrics = self.average_metrics()
 
-        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+        fig, axs = plt.subplots(2, 2, figsize=(16, 14))
 
         self.plot_single_result(axs[0, 0], metrics["average_inference_time"], title="Average Inference Time", ylabel="Time (s)")
         self.plot_single_result(axs[0, 1], metrics["average_token_overlap"], title=f"Average Token Overlap ({self.k} Tokens)", ylabel="Overlap (%)")
@@ -70,5 +70,5 @@ class DatasetEvaluator:
         ax.set_xlabel('Models')
         ax.set_ylabel(ylabel)
         ax.set_title(title)
-        ax.tick_params(axis='x', rotation=45)
+        ax.tick_params(axis='x', rotation=90)
 

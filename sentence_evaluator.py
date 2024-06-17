@@ -157,7 +157,7 @@ class ModelSentenceEvaluator:
         ax.set_xlabel('Models')
         ax.set_ylabel(ylabel)
         ax.set_title(title)
-        ax.tick_params(axis='x', rotation=45)
+        ax.tick_params(axis='x', rotation=90)
 
     def plot_all_metrics(self, k=1000, desired_percentage=100, token_step=100, max_tokens=10000):
         inference_time_results = self.get_inference_time()
@@ -165,7 +165,7 @@ class ModelSentenceEvaluator:
         tokens_needed_results = self.get_tokens_needed_for_overlap(desired_percentage=desired_percentage, k=k, max_tokens=max_tokens, token_step=token_step)
         bleu_results = self.evaluate_bleu()
 
-        fig, axs = plt.subplots(2, 2, figsize=(14, 10))
+        fig, axs = plt.subplots(2, 2, figsize=(16, 14))
 
         self.plot_single_result(axs[0, 0], inference_time_results, title="Inference Time", ylabel="Time (s)")
         self.plot_single_result(axs[0, 1], token_overlap_results, title=f"Token Overlap ({k} Tokens)", ylabel="Overlap (%)")

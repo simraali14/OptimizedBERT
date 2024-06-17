@@ -24,7 +24,7 @@ model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
 # Optimize with approximation and editing functions
 #model = optimize_model.apply_half_precision(model)
 model = optimize_model.apply_piecewise_approximation(model)
-#model = optimize_model.apply_edit_bit_precisionclear(model, 16)
+model = optimize_model.apply_edit_bit_precisionclear(model, 16)
 
 # Saving model
-save_model(model, "piecewise_model")
+save_model(model, "piecewise_with_sixteen_bits_model")
