@@ -22,9 +22,11 @@ model_checkpoint = "distilroberta-base"
 model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
 
 # Optimize with approximation and editing functions
-#model = optimize_model.apply_half_precision(model)
-model = optimize_model.apply_piecewise_approximation(model)
-model = optimize_model.apply_edit_bit_precisionclear(model, 16)
+#optimize_model.save_piecewise_approximations()
+
+model = optimize_model.approximate_gelu_activation(model)
+model = optimize_model.approximate_layernorm(model)
+model = optimize_model.approximate_softmax(model)
 
 # Saving model
-save_model(model, "piecewise_with_sixteen_bits_model")
+save_model(model, "all_approx_model")

@@ -2,19 +2,22 @@ import torch
 import torch.nn as nn
 
 class invSqrt(nn.Module):
-    def __init__(self, points):
+    def __init__(self, piecewise_approx):
         super().__init__()
-        self.segments = points
+        self.piecewise_approx = piecewise_approx
 
     def forward(self, input):
-        return input.detach().apply_(self.segments.calculate)
+        input_cpu = input.cpu()
+        output_cpu = input_cpu.detach().apply_(self.piecewise_approx.calculate)
+        output = output_cpu.to(input.device)
+        return output
 
-class NewRobertaLayerNorm(nn.Module):
-      def __init__(self, weight, bias, invsqrt):
+class PiecewiseLayerNorm(nn.Module):
+      def __init__(self, weight, bias, layernorm_piecewise_approx):
         super().__init__()
         self.weight  = weight
         self.bias    = bias
-        self.invsqrt = invSqrt(invsqrt)
+        self.invsqrt = invSqrt(layernorm_piecewise_approx)
 
       def forward(self, input):
         mean = torch.mean(input, dim=-1, keepdim=True)

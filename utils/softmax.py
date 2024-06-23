@@ -1,8 +1,7 @@
 import math
 import torch
 import torch.nn as nn
-from typing import Optional, TypeVar, Tuple
-
+from typing import Optional, Tuple
 
 class inversePiece(nn.Module):
     def __init__(self, points):
@@ -10,8 +9,10 @@ class inversePiece(nn.Module):
         self.segments = points
 
     def forward(self, input):
-        return input.detach().apply_(self.segments.calculate)
-
+        input_cpu = input.cpu()
+        output_cpu = input_cpu.detach().apply_(self.segments.calculate)
+        output = output_cpu.to(input.device)
+        return output
 
 class etothePiece(nn.Module):
     def __init__(self, points):
@@ -19,8 +20,11 @@ class etothePiece(nn.Module):
         self.segments = points
 
     def forward(self, input):
-        return input.detach().apply_(self.segments.calculate)
-
+        input_cpu = input.cpu()
+        output_cpu = input_cpu.detach().apply_(self.segments.calculate)
+        output = output_cpu.to(input.device)
+        return output
+    
 class softMaxPiece(nn.Module):
     def __init__(self, etothe, inverse ):
         super().__init__()
@@ -36,7 +40,7 @@ class softMaxPiece(nn.Module):
 
 # Copied from transformers.models.bert.modeling_bert.BertSelfAttention with Bert->Roberta
 class NewRobertaSelfAttention(nn.Module):
-    def __init__(self, config, position_embedding_type=None):
+    def __init__(self, config, expPoints, inversePoints, position_embedding_type=None):
         super().__init__()
         if config.hidden_size % config.num_attention_heads != 0 and not hasattr(config, "embedding_size"):
             raise ValueError(
@@ -61,6 +65,9 @@ class NewRobertaSelfAttention(nn.Module):
             self.distance_embedding = nn.Embedding(2 * config.max_position_embeddings - 1, self.attention_head_size)
 
         self.is_decoder = config.is_decoder
+
+        self.expPoints = expPoints
+        self.inversePoints = inversePoints
 
     def transpose_for_scores(self, x: torch.Tensor) -> torch.Tensor:
         new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
@@ -147,7 +154,7 @@ class NewRobertaSelfAttention(nn.Module):
 
         # Normalize the attention scores to probabilities.
 
-        customSoft = softMaxPiece(expPoints, inversePoints)
+        customSoft = softMaxPiece(self.expPoints, self.inversePoints)
         attention_probs = customSoft(attention_scores)
         #attention_probs = nn.functional.softmax(attention_scores, dim=-1)
 
