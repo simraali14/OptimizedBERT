@@ -26,7 +26,7 @@ optimize_model.save_piecewise_approximations()
 
 #model = optimize_model.approximate_gelu_activation(model)
 #model = optimize_model.approximate_layernorm(model)
-##model = optimize_model.approximate_softmax(model)
+#model = optimize_model.approximate_softmax(model)
 
 # Saving model
 save_model(model, "softmax_approx_model")
