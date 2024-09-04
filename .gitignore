@@ -1,0 +1,15 @@
+.DS_Store
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore pickle files
+models/optimized_models/*.pkl
+
+# Ignore environment files
+env/
+*.env
