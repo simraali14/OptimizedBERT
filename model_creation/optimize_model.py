@@ -17,8 +17,8 @@ from utils.softmax import NewRobertaSelfAttention
 # approximation specifications
 piecewise_approximations = {"gelu" : Piecewise(-10, 10, gelu, gelu_prime),
                             "inverse_sqrt" : Piecewise(0.00001, 150, inverse_sqrt, inverse_sqrt_prime),
-                             "exponential" :  Piecewise(-100, 100, exponential, exponential),
-                             "reciprocal" : Piecewise(0.01, 764, reciprocal, reciprocal_prime)}
+                             "exponential" :  Piecewise(-100, 0, exponential, exponential),
+                             "reciprocal" : Piecewise(1, 764, reciprocal, reciprocal_prime)}
 
 def apply_half_precision(model):
     with torch.no_grad():
